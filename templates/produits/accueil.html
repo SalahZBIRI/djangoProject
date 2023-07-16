@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des produits</title>
+    <style>
+        /* Styles CSS pour la mise en page */
+        body {
+            padding: 20px;
+            position: relative;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            margin-bottom: 30px;
+        }
+        .search-bar {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .search-input {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .produit {
+            display: inline-block;
+            width: 300px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            text-align: center;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .produit img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .produit h3 {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        .produit p {
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .produit .statut {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .contact {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #f5f5f5;
+            padding: 10px;
+        }
+        .contact p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Ma boutique en ligne</h1>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" id="search-input" class="search-input" placeholder="Rechercher un produit" oninput="filtrerProduits(this.value)">
+    </div>
+
+    <h2>Liste des produits</h2>
+
+    {% for produit in produits %}
+        <a href="/detail/{{ produit.id }}">
+            <div class="produit">
+                <h3>{{ produit.nom }}</h3>
+                <img src="{{ produit.image.url }}" alt="Image {{ produit.nom }}">
+                <p>Prix : {{ produit.prix }} dh</p>
+                <div class="statut">
+                    {{ produit.instance }}
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+
+    <div class="contact">
+        <p>Contact :</p>
+        <p>Email: houseprint10@gmail.com</p>
+        <p>Téléphone: +212 661 449 331</p>
+    </div>
+
+    <script>
+        function filtrerProduits(termeRecherche) {
+            var produits = document.getElementsByClassName('produit');
+            for (var i = 0; i < produits.length; i++) {
+                var nomProduit = produits[i].querySelector('h3').textContent.toLowerCase();
+                if (nomProduit.startsWith(termeRecherche.toLowerCase())) {
+                    produits[i].style.display = 'inline-block';
+                } else {
+                    produits[i].style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
